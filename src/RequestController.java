@@ -10,7 +10,10 @@ public class RequestController {
         }
         else{
             ServerResponse toUser = new ServerResponse();
-            System.out.println(toUser.statusCode);
+            toUser.statusCode = 400;
+            System.out.println("Bad Request: Invalid Endpoint");
+            //will later remove
+            System.out.println("empty body//");
         }
     }
 }
