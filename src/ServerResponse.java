@@ -3,7 +3,6 @@ public class ServerResponse {
     public String statusMessage;
     public String body;
 
-
     ServerResponse(int statusCode, String statusMessage, String body){
         this.statusCode = statusCode;
         this.statusMessage = statusMessage;

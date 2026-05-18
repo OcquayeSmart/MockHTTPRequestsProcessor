@@ -12,11 +12,7 @@ public class RequestController {
     static double hypotenuse;
     static String summary;
     static String userInput;
-    public void ServerResponse(){
-
-
-    }
-    public ServerResponse ProcessRequest(ClientRequest request, ArrayList<Double> parsedNumbers){
+    public ServerResponse ProcessRequest(ClientRequest request){
         //Check endpoint which is kinda like the input
         userInput = request.getEndpoint().trim().toLowerCase();
         //endpoint validation
@@ -51,7 +47,6 @@ public class RequestController {
             //ceiling of the maximum
             ceilMaxValue = (int) Math.ceil(maxValue);
         }
-
         else{
             return errorCode1;
         }
