@@ -9,14 +9,14 @@ public class RequestController {
     static double firstValue, secondValue, hypotenuse, currentValue;
     static String summary;
     static String userInput;
-
+    static String endpoint = "/api/analytics/calculate";
 
 
     public ServerResponse ProcessRequest(ClientRequest request){
         //Check endpoint which is kinda like the input
         userInput = request.getEndpoint().trim().toLowerCase();
         //endpoint validation
-        if(userInput.equals(Endpoint.API.name()) || userInput.equals(Endpoint.ANALYTICS.name().toLowerCase()) || userInput.equals(Endpoint.CALCUlATE.name().toLowerCase())){
+        if(userInput.equals(endpoint.trim())){
             String[] myToken = request.getPayload().split(",");
             for(String token:myToken){
                 double newToken = Double.parseDouble(token.trim());
