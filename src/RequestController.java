@@ -2,25 +2,27 @@ import java.util.ArrayList;
 
 public class RequestController {
     ArrayList<Double> parsedNumbers = new ArrayList<>();
-    ServerResponse toUser = new ServerResponse();
-    double maxValue;
-    int ceilMaxValue;
-    int counter = 0;
-    double firstValue;
-    double secondValue;
-    double hypotenuse;
-    String summary;
-    String userInput;
+    static ServerResponse errorCode1 = new ServerResponse(400, "Bad request: Invalid Endpoint", "No processing took place");
+    static ServerResponse successCode = new ServerResponse(200, "OK", "Metrics Summary: Max Abs = %f | Ceil Max = %d | Hypotenuse = %f".formatted(RequestController.maxValue, RequestController.ceilMaxValue, RequestController.hypotenuse));
+    static double maxValue;
+    static int ceilMaxValue;
+    static int counter = 0;
+    static double firstValue;
+    static double secondValue;
+    static double hypotenuse;
+    static String summary;
+    static String userInput;
     public void ServerResponse(){
 
 
     }
-    public void ProcessRequest(ClientRequest request, ArrayList<Double> parsedNumbers){
+    public ServerResponse ProcessRequest(ClientRequest request, ArrayList<Double> parsedNumbers){
         //Check endpoint which is kinda like the input
-        userInput = request.endpoint.trim().toLowerCase();
+        userInput = request.getEndpoint().trim().toLowerCase();
+        //endpoint validation
         if(userInput.equals(Endpoint.API.name().toLowerCase()) || userInput.equals(Endpoint.ANALYTICS.name().toLowerCase()) || userInput.equals(Endpoint.CALCUlATE.name().toLowerCase())){
             System.out.println("valid");
-            String[] myToken = request.payload.split(",");
+            String[] myToken = request.getPayload().split(",");
             for(String token:myToken){
                 double newToken = Double.parseDouble(token.trim());
                 counter+=1;
@@ -36,12 +38,8 @@ public class RequestController {
                 }
                 else{
                     hypotenuse = 0.0;
-
                 }
             }
-
-
-
             //we have our parsedNumbers at this point
             for(int i = 0; i < parsedNumbers.size(); i++){
                 double currentValue = parsedNumbers.get(i);
@@ -52,22 +50,11 @@ public class RequestController {
             }
             //ceiling of the maximum
             ceilMaxValue = (int) Math.ceil(maxValue);
-
         }
 
         else{
-
-            toUser.statusCode = 400;
-            System.out.println("Bad Request: Invalid Endpoint");
-            //will later remove
-            System.out.println("empty body//");
+            return errorCode1;
         }
-        summary = """
-Metrics Summary: Max Abs = %f | Ceil Max = %d | Hypotenuse = %f
-                                   
-                    """.formatted(maxValue, ceilMaxValue, hypotenuse);
-        System.out.println(summary);
-
-
+        return successCode;
     }
 }
