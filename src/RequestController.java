@@ -9,8 +9,8 @@ public class RequestController {
     static double firstValue, secondValue, hypotenuse, currentValue;
     static String summary;
     static String userInput;
-    static ServerResponse errorCode1 = new ServerResponse(400, "Bad request: Invalid Endpoint", "No processing took place");
-    static ServerResponse successCode = new ServerResponse(200, "OK", "Metrics Summary: Max Abs = %f | Ceil Max = %d | Hypotenuse = %f".formatted(maxValue, ceilMaxValue, hypotenuse));
+
+
 
     public ServerResponse ProcessRequest(ClientRequest request){
         //Check endpoint which is kinda like the input
@@ -49,8 +49,8 @@ public class RequestController {
             ceilMaxValue = (int) Math.ceil(maxValue);
         }
         else{
-            return errorCode1;
+            return new ServerResponse(400, "Bad request: Invalid Endpoint", "No processing took place");
         }
-        return successCode;
+        return new ServerResponse(200, "OK", "Metrics Summary: Max Abs = %.2f | Ceil Max = %d | Hypotenuse = %.2f".formatted(maxValue, ceilMaxValue, hypotenuse));
     }
 }
