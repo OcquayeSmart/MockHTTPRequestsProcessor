@@ -16,7 +16,7 @@ public class RequestController {
         //Check endpoint which is kinda like the input
         userInput = request.getEndpoint().trim().toLowerCase();
         //endpoint validation
-        if(userInput.equals(Endpoint.API.name().toLowerCase()) || userInput.equals(Endpoint.ANALYTICS.name().toLowerCase()) || userInput.equals(Endpoint.CALCUlATE.name().toLowerCase())){
+        if(userInput.equals(Endpoint.API.name()) || userInput.equals(Endpoint.ANALYTICS.name().toLowerCase()) || userInput.equals(Endpoint.CALCUlATE.name().toLowerCase())){
             String[] myToken = request.getPayload().split(",");
             for(String token:myToken){
                 double newToken = Double.parseDouble(token.trim());
@@ -51,6 +51,6 @@ public class RequestController {
         else{
             return new ServerResponse(400, "Bad request: Invalid Endpoint", "No processing took place");
         }
-        return new ServerResponse(200, "OK", "Metrics Summary: Max Abs = %.2f | Ceil Max = %d | Hypotenuse = %.2f".formatted(maxValue, ceilMaxValue, hypotenuse));
+        return new ServerResponse(200, "OK", "Metrics Summary: Max Abs = %.1f | Ceil Max = %d | Hypotenuse = %.1f".formatted(maxValue, ceilMaxValue, hypotenuse));
     }
 }

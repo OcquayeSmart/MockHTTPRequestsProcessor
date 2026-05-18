@@ -1,6 +1,6 @@
 public class Main {
     public static void main(String[] args){
-        ClientRequest request =  new ClientRequest("API", "3.0, -4.0, 12.5, -9.9");
+        ClientRequest request =  new ClientRequest("api", "1.0, 2.0");
         RequestController controller = new RequestController();
         ServerResponse requests = controller.ProcessRequest(request);
         System.out.println(requests);
