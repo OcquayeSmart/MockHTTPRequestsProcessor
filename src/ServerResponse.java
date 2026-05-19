@@ -1,7 +1,7 @@
 public class ServerResponse {
-    public int statusCode;
-    public String statusMessage;
-    public String body;
+    private final int statusCode;
+    private final String statusMessage;
+    private final String body;
 
     ServerResponse(int statusCode, String statusMessage, String body){
         this.statusCode = statusCode;
