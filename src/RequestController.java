@@ -15,14 +15,22 @@ public class RequestController {
     public ServerResponse processRequest(ClientRequest request){
         //Check endpoint which is kinda like the input
         parsedNumbers.clear();
-        userInput = request.getEndpoint().trim().toLowerCase();
+        userInput = request.getEndpoint().trim();
         //endpoint validation
         if(userInput.equals(endpoint.trim())){
             String[] myToken = request.getPayload().split(",");
+
             for(String token:myToken){
-                double newToken = Double.parseDouble(token.trim());
-                parsedNumbers.add(Math.abs(newToken));
-                //this is the new payload, don't know what to do with it yet
+                try{
+                    double newToken = Double.parseDouble(token.trim());
+                    parsedNumbers.add(Math.abs(newToken));
+                    //this is the new payload, don't know what to do with it yet
+                }
+                catch(NumberFormatException e){
+                    System.out.println("Payload contains invalid input");
+                    return new ServerResponse(400, "Bad request: Invalid Endpoint", "No processing took place");
+
+                }
             }
             //hypotenuse approximation
             if(parsedNumbers.size() > 1){
@@ -47,10 +55,11 @@ public class RequestController {
             }
             //ceiling of the maximum
             ceilMaxValue = (int) Math.ceil(maxValue);
+            return new ServerResponse(200, "OK", "Metrics Summary: Max Abs = %.1f | Ceil Max = %d | Hypotenuse = %.1f".formatted(maxValue, ceilMaxValue, hypotenuse));
         }
         else{
             return new ServerResponse(400, "Bad request: Invalid Endpoint", "No processing took place");
         }
-        return new ServerResponse(200, "OK", "Metrics Summary: Max Abs = %.1f | Ceil Max = %d | Hypotenuse = %.1f".formatted(maxValue, ceilMaxValue, hypotenuse));
+
     }
 }
